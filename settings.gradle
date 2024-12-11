@@ -1,0 +1,7 @@
+rootProject.name = 'spring-msa-multi-module'
+
+include 'spring-gateway-service'
+include 'spring-api-service'
+include 'spring-api-service:spring-admin-service'
+include 'spring-api-service:spring-core-service'
+include 'spring-api-service:spring-user-service'

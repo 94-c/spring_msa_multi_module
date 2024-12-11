@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: spring-core-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3307/msa_project
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update  # 개발 환경에서는 'update', 운영 환경에서는 'validate' 사용 권장
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+
+server:
+  port: 8082
