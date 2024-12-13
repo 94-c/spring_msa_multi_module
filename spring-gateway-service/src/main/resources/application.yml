@@ -5,6 +5,12 @@ spring:
   cloud:
     gateway:
       routes:
+        # Route for auth endpoints to user-service
+        - id: auth-route
+          uri: lb://spring-user-service
+          predicates:
+            - Path=/auth/**
+
         # /users/** → spring-user-service
         - id: user-service-route
           uri: lb://spring-user-service

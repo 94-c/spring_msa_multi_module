@@ -22,15 +22,23 @@ public class SecurityConfig {
         http
                 .csrf().disable() // CSRF 보호 비활성화
                 .authorizeExchange()
+                .pathMatchers("/user-service/**", "/admin-service/**", "/auth/**").permitAll() // Actuator 엔드포인트 허용
                 .pathMatchers("/users/**").hasRole("USER") // USER 권한 필요
                 .pathMatchers("/admin/**").hasRole("ADMIN") // ADMIN 권한 필요
-                .pathMatchers("/user-service/**", "/admin-service/**").permitAll() // Actuator 엔드포인트 허용
                 .anyExchange().authenticated()
                 .and()
                 .addFilterAt(jwtAuthenticationWebFilter(), SecurityWebFiltersOrder.AUTHENTICATION); // JWT 필터 추가
 
         return http.build();
     }
+
+    /*@Bean
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+        http.csrf().disable()
+                .authorizeExchange()
+                .anyExchange().permitAll(); // 모든 요청 허용
+        return http.build();
+    }*/
 
     private AuthenticationWebFilter jwtAuthenticationWebFilter() {
         ReactiveAuthenticationManager authenticationManager = authentication -> {
