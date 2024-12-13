@@ -5,19 +5,23 @@ spring:
   cloud:
     gateway:
       routes:
-        # /users/** -> spring-user-service로 라우팅
-        - id: user-service
+        # 라우트 ID는 각 서비스에 대해 고유해야 함
+        - id: user-service-route # spring-user-service
           uri: http://localhost:8083
           predicates:
             - Path=/users/**
 
-        # /admin/** -> spring-admin-service로 라우팅
-        - id: admin-service
+        - id: admin-service-route # spring-admin-service
           uri: http://localhost:8084
           predicates:
             - Path=/admin/**
 
-      # 기본 필터 설정 (선택 사항)
+        - id: core-service-route # spring-core-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/core/**
+
+      # 기본 필터 (선택 사항)
       default-filters:
         - AddRequestHeader=Gateway-Request, GatewayRequestHeaderValue
 
