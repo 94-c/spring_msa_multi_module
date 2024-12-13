@@ -1,5 +1,8 @@
 package com.backend.core.auth.service;
 
+import com.backend.core.auth.exception.EmailAlreadyExistsException;
+import com.backend.core.auth.exception.InvalidPasswordException;
+import com.backend.core.auth.exception.RoleNotFoundException;
 import com.backend.core.entity.role.Role;
 import com.backend.core.entity.role.RoleName;
 import com.backend.core.entity.role.RoleRepository;
@@ -20,17 +23,17 @@ public class AuthService {
     public void register(AuthRegisterRequest request) {
         // 이메일 중복 확인
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already exists");
+            throw new EmailAlreadyExistsException("Email already exists");
         }
 
         // 비밀번호 검증
         if (request.getPassword() == null || request.getPassword().isEmpty()) {
-            throw new IllegalArgumentException("Password cannot be null or empty");
+            throw new InvalidPasswordException("Password cannot be null or empty");
         }
 
         // 기본 역할 조회
         Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-                .orElseThrow(() -> new RuntimeException("Default role not found"));
+                .orElseThrow(() -> new RoleNotFoundException("Default role not found"));
 
         // 비밀번호 암호화
         String encryptedPassword = passwordEncoder.encode(request.getPassword());
