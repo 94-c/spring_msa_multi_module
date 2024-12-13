@@ -12,6 +12,9 @@ dependencies {
     // Eureka 서버
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
 
+    // Actuator
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
     // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

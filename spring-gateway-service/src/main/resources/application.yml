@@ -5,15 +5,33 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: user-service-route # spring-user-service
-          uri: lb://spring-user-service # Eureka에 등록된 서비스 이름
+        # /users/** → spring-user-service
+        - id: user-service-route
+          uri: lb://spring-user-service
           predicates:
             - Path=/users/**
 
-        - id: admin-service-route # spring-admin-service
-          uri: lb://spring-admin-service # Eureka에 등록된 서비스 이름
+        # /user-service/** → spring-user-service의 /actuator/**로 전달
+        - id: user-service-actuator-route
+          uri: lb://spring-user-service
+          predicates:
+            - Path=/user-service/** # 모든 /user-service 경로 매칭
+          filters:
+            - RewritePath=/user-service/(?<segment>.*),/actuator/${segment}
+
+        # /admin/** → spring-admin-service
+        - id: admin-service-route
+          uri: lb://spring-admin-service
           predicates:
             - Path=/admin/**
+
+        # /admin-service/** → spring-admin-service의 /actuator/**로 전달
+        - id: admin-service-actuator-route
+          uri: lb://spring-admin-service
+          predicates:
+            - Path=/admin-service/** # 모든 /admin-service 경로 매칭
+          filters:
+            - RewritePath=/admin-service/(?<segment>.*),/actuator/${segment}
 
       default-filters:
         - AddRequestHeader=Gateway-Request, GatewayRequestHeaderValue
@@ -22,8 +40,17 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/ # Eureka 서버 URL
-    register-with-eureka: true # Eureka에 클라이언트로 등록 (기본값: true)
-    fetch-registry: true       # 다른 서비스 정보 가져오기 (기본값: true)
+    register-with-eureka: true # Eureka에 클라이언트로 등록
+    fetch-registry: true       # 다른 서비스 정보 가져오기
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" # 모든 엔드포인트 활성화
+  endpoint:
+    health:
+      show-details: always # Health 상태의 세부 정보 활성화
 
 server:
   port: 8081

@@ -11,3 +11,12 @@ eureka:
     fetch-registry: false
   server:
     enable-self-preservation: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" # 모든 엔드포인트 활성화 (보안 필요 시 "health,info"로 제한)
+  endpoint:
+    health:
+      show-details: always # Health 상태의 세부 정보 활성화

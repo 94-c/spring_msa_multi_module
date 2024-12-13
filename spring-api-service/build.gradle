@@ -26,6 +26,9 @@ subprojects {
         // Eureka 클라이언트 추가
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
+        // Actuator
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
         // 테스트 관련 의존성
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
