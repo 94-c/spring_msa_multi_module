@@ -5,20 +5,25 @@ spring:
   cloud:
     gateway:
       routes:
-        # 라우트 ID는 각 서비스에 대해 고유해야 함
         - id: user-service-route # spring-user-service
-          uri: http://localhost:8083
+          uri: lb://spring-user-service # Eureka에 등록된 서비스 이름
           predicates:
             - Path=/users/**
 
         - id: admin-service-route # spring-admin-service
-          uri: http://localhost:8084
+          uri: lb://spring-admin-service # Eureka에 등록된 서비스 이름
           predicates:
             - Path=/admin/**
 
-      # 기본 필터 (선택 사항)
       default-filters:
         - AddRequestHeader=Gateway-Request, GatewayRequestHeaderValue
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/ # Eureka 서버 URL
+    register-with-eureka: true # Eureka에 클라이언트로 등록 (기본값: true)
+    fetch-registry: true       # 다른 서비스 정보 가져오기 (기본값: true)
 
 server:
   port: 8081

@@ -1,0 +1,22 @@
+ext {
+    set('springCloudVersion', "2023.0.4") // Spring Cloud Dublin 릴리스
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+dependencies {
+    // Eureka 서버
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // 테스트 의존성
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}

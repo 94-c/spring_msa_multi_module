@@ -1,5 +1,5 @@
 ext {
-    set('springCloudVersion', "2023.0.1")
+    set('springCloudVersion', "2023.0.4") // Spring Cloud Dublin 릴리스
 }
 
 bootJar {
@@ -13,10 +13,20 @@ dependencyManagement {
 }
 
 dependencies {
-    /*implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'*/
-    /*implementation 'org.springframework.boot:spring-boot-starter-security'*/
+    // Spring Security 및 OAuth2 설정
+/*    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-security'*/
+
+    // Spring Cloud Gateway
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+
+    // Eureka 클라이언트
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+    // Netty DNS 해결 문제 (MacOS 관련)
     implementation 'io.netty:netty-resolver-dns-native-macos:4.1.96.Final'
+
+    // 테스트 의존성
     testImplementation 'io.projectreactor:reactor-test'
     testImplementation 'org.springframework.security:spring-security-test'
 }
