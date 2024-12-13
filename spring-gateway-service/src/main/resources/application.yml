@@ -16,11 +16,6 @@ spring:
           predicates:
             - Path=/admin/**
 
-        - id: core-service-route # spring-core-service
-          uri: http://localhost:8082
-          predicates:
-            - Path=/core/**
-
       # 기본 필터 (선택 사항)
       default-filters:
         - AddRequestHeader=Gateway-Request, GatewayRequestHeaderValue
