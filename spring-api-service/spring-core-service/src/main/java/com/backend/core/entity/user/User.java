@@ -1,6 +1,6 @@
-package com.backend.core.domain.user;
+package com.backend.core.entity.user;
 
-import com.backend.core.domain.role.Role;
+import com.backend.core.entity.role.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

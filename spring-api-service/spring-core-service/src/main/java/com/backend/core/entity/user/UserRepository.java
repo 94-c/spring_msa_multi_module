@@ -1,4 +1,4 @@
-package com.backend.core.domain.user;
+package com.backend.core.entity.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

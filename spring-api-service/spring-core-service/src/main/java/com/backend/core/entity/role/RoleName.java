@@ -1,4 +1,4 @@
-package com.backend.core.domain.role;
+package com.backend.core.entity.role;
 
 public enum RoleName {
     ROLE_ADMIN,

@@ -5,9 +5,9 @@ spring:
   cloud:
     gateway:
       routes:
-        # Route for auth endpoints to user-service
+        # Route for auth endpoints to spring-core-service
         - id: auth-route
-          uri: lb://spring-user-service
+          uri: lb://spring-core-service
           predicates:
             - Path=/auth/**
 

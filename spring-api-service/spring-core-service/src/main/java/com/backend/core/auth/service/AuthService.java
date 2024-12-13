@@ -1,14 +1,14 @@
-package user.auth.service;
+package com.backend.core.auth.service;
 
-import com.backend.core.domain.role.Role;
-import com.backend.core.domain.role.RoleName;
-import com.backend.core.domain.role.RoleRepository;
-import com.backend.core.domain.user.User;
-import com.backend.core.domain.user.UserRepository;
+import com.backend.core.entity.role.Role;
+import com.backend.core.entity.role.RoleName;
+import com.backend.core.entity.role.RoleRepository;
+import com.backend.core.entity.user.User;
+import com.backend.core.entity.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import user.auth.dto.AuthRegisterRequest;
+import com.backend.core.auth.dto.AuthRegisterRequest;
 
 @Service
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package com.backend.core.domain.role;
+package com.backend.core.entity.role;
 
 import jakarta.persistence.*;
 import lombok.Getter;

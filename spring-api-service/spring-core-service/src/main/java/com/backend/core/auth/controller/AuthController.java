@@ -1,12 +1,12 @@
-package user.auth.controller;
+package com.backend.core.auth.controller;
 
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import user.auth.dto.AuthRegisterRequest;
-import user.auth.service.AuthService;
+import com.backend.core.auth.dto.AuthRegisterRequest;
+import com.backend.core.auth.service.AuthService;
 
 @RestController
 @RequestMapping("/auth")
