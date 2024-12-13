@@ -20,7 +20,7 @@ public class AuthService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void register(AuthRegisterRequest request) {
+    public User register(AuthRegisterRequest request) {
         // 이메일 중복 확인
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new EmailAlreadyExistsException("Email already exists");
@@ -42,6 +42,8 @@ public class AuthService {
 
         // 사용자 저장
         userRepository.save(user);
+
+        return user;
     }
 }
 

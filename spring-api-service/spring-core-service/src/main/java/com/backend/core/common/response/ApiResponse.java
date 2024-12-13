@@ -2,10 +2,12 @@ package com.backend.core.common.response;
 
 import com.backend.core.common.exception.CustomException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public record ApiResponse<T>(
         @JsonIgnore
         HttpStatus httpStatus,
@@ -26,6 +28,7 @@ public record ApiResponse<T>(
 
     public static <T> ApiResponse<T> fail(final CustomException exception) {
         return new ApiResponse<>(exception.getHttpStatus(), false, null,
-                "ERROR", exception.getMessage(), exception.toString());
+                String.valueOf(exception.getHttpStatus().value()), exception.getMessage(), exception.toString());
     }
 }
+

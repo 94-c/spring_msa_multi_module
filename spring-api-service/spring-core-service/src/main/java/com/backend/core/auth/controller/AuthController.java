@@ -1,6 +1,8 @@
 package com.backend.core.auth.controller;
 
 
+import com.backend.core.common.response.ApiResponse;
+import com.backend.core.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +23,10 @@ public class AuthController {
      * @return 성공 메시지
      */
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody AuthRegisterRequest request) {
-        authService.register(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully.");
+    public ResponseEntity<ApiResponse<User>> register(@RequestBody AuthRegisterRequest request) {
+        User result = authService.register(request);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.created(result));
     }
 
     @GetMapping("/test")
