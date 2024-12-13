@@ -3,13 +3,12 @@ spring:
     name: spring-admin-service
 
   datasource:
-    url: jdbc:mysql://localhost:3307/msa_project
+    url: jdbc:mysql://localhost:3307/multi
     username: root
-    password:
+    password: multi
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
     show-sql: true
     properties:
       hibernate.format_sql: true

@@ -1,17 +1,22 @@
 version: '3.8'
+
 services:
-  mysql8:
+  db:
     image: mysql:8.0
-    container_name: mysql8-container
-    restart: always
+    container_name: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: msa_project
-      MYSQL_USER: user
-      MYSQL_PASSWORD: user_password
+      MYSQL_ROOT_PASSWORD: multi
+      MYSQL_DATABASE: multi
     ports:
-      - "3307:3307"
+      - "3307:3306"
     volumes:
-      - mysql8-data:/var/lib/mysql
+      - db_data:/var/lib/mysql
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+
 volumes:
-  mysql8-data:
+  db_data:
