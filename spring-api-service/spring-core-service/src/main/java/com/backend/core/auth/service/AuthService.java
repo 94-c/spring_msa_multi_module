@@ -5,7 +5,7 @@ import com.backend.core.auth.exception.UserNotFoundException;
 import com.backend.core.auth.exception.EmailAlreadyExistsException;
 import com.backend.core.auth.exception.InvalidPasswordException;
 import com.backend.core.auth.exception.RoleNotFoundException;
-import com.backend.core.auth.jwt.JwtTokenProvider;
+import com.backend.core.common.jwt.JwtTokenProvider;
 import com.backend.core.entity.role.Role;
 import com.backend.core.entity.role.RoleName;
 import com.backend.core.entity.role.RoleRepository;

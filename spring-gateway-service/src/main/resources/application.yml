@@ -63,3 +63,7 @@ server:
 
 jwt:
   secret: "secretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKey"
+
+logging:
+  level:
+    org.springframework.security: DEBUG

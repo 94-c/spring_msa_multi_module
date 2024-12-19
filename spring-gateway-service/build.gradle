@@ -10,11 +10,11 @@ dependencyManagement {
 }
 
 dependencies {
-    // Spring WebFlux
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation project(':spring-api-service:spring-core-service') // core-service 참조
 
     // Spring Security
-    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-security:3.1.4'
+    implementation 'org.springframework.security:spring-security-config:6.1.4'
 
     // JWT
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'

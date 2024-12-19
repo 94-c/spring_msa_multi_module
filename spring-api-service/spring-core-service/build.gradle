@@ -6,6 +6,8 @@ dependencies {
     // Spring Boot Dependencies
     implementation 'org.springframework.boot:spring-boot-starter-validation' // 데이터 검증
 
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
     runtimeOnly 'com.mysql:mysql-connector-j'
 
     // Lombok
