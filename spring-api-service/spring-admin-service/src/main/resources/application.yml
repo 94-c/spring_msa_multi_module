@@ -38,3 +38,7 @@ info:
     name: Spring Admin Service
     description: Handles admin-related operations
     version: 1.0.0
+
+jwt:
+  secret: "secretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKey"
+  validity: 3600000 # 1시간 (밀리초)

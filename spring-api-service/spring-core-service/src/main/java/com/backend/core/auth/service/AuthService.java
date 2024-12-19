@@ -1,8 +1,11 @@
 package com.backend.core.auth.service;
 
+import com.backend.core.auth.dto.AuthLoginRequest;
+import com.backend.core.auth.exception.UserNotFoundException;
 import com.backend.core.auth.exception.EmailAlreadyExistsException;
 import com.backend.core.auth.exception.InvalidPasswordException;
 import com.backend.core.auth.exception.RoleNotFoundException;
+import com.backend.core.auth.jwt.JwtTokenProvider;
 import com.backend.core.entity.role.Role;
 import com.backend.core.entity.role.RoleName;
 import com.backend.core.entity.role.RoleRepository;
@@ -19,6 +22,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public User register(AuthRegisterRequest request) {
         // 이메일 중복 확인
@@ -44,6 +48,27 @@ public class AuthService {
         userRepository.save(user);
 
         return user;
+    }
+
+    public String login(AuthLoginRequest request) {
+        // 이메일로 사용자 조회
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new UserNotFoundException("Invalid email or password"));
+
+        // 비밀번호 검증
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new InvalidPasswordException("Invalid email or password");
+        }
+
+        // 사용자 역할 조회 및 문자열로 변환
+        String role = user.getRoles().stream()
+                .map(Role::getName)
+                .findFirst()
+                .orElseThrow(() -> new RoleNotFoundException("User role not found"))
+                .name(); // 문자열로 변환
+
+        // JWT 생성 및 반환
+        return jwtTokenProvider.createToken(user.getEmail(), role);
     }
 }
 

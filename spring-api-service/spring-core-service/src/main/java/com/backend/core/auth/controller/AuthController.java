@@ -1,6 +1,7 @@
 package com.backend.core.auth.controller;
 
 
+import com.backend.core.auth.dto.AuthLoginRequest;
 import com.backend.core.common.response.ApiResponse;
 import com.backend.core.entity.user.User;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,17 @@ public class AuthController {
         User result = authService.register(request);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.created(result));
+    }
+
+    /**
+     * 로그인 요청
+     * @param request 로그인 요청 데이터 (email, password)
+     * @return JWT 토큰
+     */
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<String>> login(@RequestBody AuthLoginRequest request) {
+        String token = authService.login(request);
+        return ResponseEntity.ok(ApiResponse.ok(token)); // JWT 토큰 반환
     }
 
     @GetMapping("/test")

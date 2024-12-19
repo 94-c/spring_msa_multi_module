@@ -1,68 +1,34 @@
 package com.backend.gateway.config;
 
+import com.backend.gateway.filter.JwtAuthenticationFilter;
+import com.backend.gateway.filter.JwtAuthenticationManager;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
-import org.springframework.security.web.server.context.ServerSecurityContextRepository;
-import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
-import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Mono;
 
 @Configuration
 @EnableWebFluxSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationManager authenticationManager;
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http
-                .csrf().disable() // CSRF 보호 비활성화
-                .authorizeExchange()
-                .pathMatchers("/user-service/**", "/admin-service/**", "/auth/**").permitAll() // Actuator 엔드포인트 허용
-                .pathMatchers("/users/**").hasRole("USER") // USER 권한 필요
-                .pathMatchers("/admin/**").hasRole("ADMIN") // ADMIN 권한 필요
-                .anyExchange().authenticated()
-                .and()
-                .addFilterAt(jwtAuthenticationWebFilter(), SecurityWebFiltersOrder.AUTHENTICATION); // JWT 필터 추가
+                .csrf(ServerHttpSecurity.CsrfSpec::disable) // CSRF 비활성화
+                .authorizeExchange(exchange -> exchange
+                        .pathMatchers("/auth/**", "/user-service/**", "/admin-service/**").permitAll() // 공개 엔드포인트
+                        .pathMatchers("/users/**").hasRole("USER") // USER 권한 필요
+                        .pathMatchers("/admin/**").hasRole("ADMIN") // ADMIN 권한 필요
+                        .anyExchange().authenticated() // 나머지 요청은 인증 필요
+                )
+                .addFilterAt(jwtAuthenticationFilter.createJwtAuthenticationFilter(authenticationManager), SecurityWebFiltersOrder.AUTHENTICATION); // JWT 필터 추가
 
         return http.build();
-    }
-
-    /*@Bean
-    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
-        http.csrf().disable()
-                .authorizeExchange()
-                .anyExchange().permitAll(); // 모든 요청 허용
-        return http.build();
-    }*/
-
-    private AuthenticationWebFilter jwtAuthenticationWebFilter() {
-        ReactiveAuthenticationManager authenticationManager = authentication -> {
-            // JWT 검증 로직 구현 필요
-            return Mono.just(authentication);
-        };
-
-        AuthenticationWebFilter filter = new AuthenticationWebFilter(authenticationManager);
-        filter.setRequiresAuthenticationMatcher(ServerWebExchangeMatchers.pathMatchers("/users/**", "/admin/**"));
-        filter.setSecurityContextRepository(new CustomSecurityContextRepository()); // SecurityContext 저장소 설정
-        return filter;
-    }
-
-    private static class CustomSecurityContextRepository implements ServerSecurityContextRepository {
-        @Override
-        public Mono<Void> save(ServerWebExchange exchange, org.springframework.security.core.context.SecurityContext context) {
-            // SecurityContext 저장 로직 구현 필요
-            return Mono.empty();
-        }
-
-        @Override
-        public Mono<org.springframework.security.core.context.SecurityContext> load(ServerWebExchange exchange) {
-            // SecurityContext 로드 로직 구현 필요
-            return Mono.empty();
-        }
     }
 }

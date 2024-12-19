@@ -12,7 +12,7 @@ public record ApiResponse<T>(
         @JsonIgnore
         HttpStatus httpStatus,
         @NotNull boolean success,
-        @Nullable T data,
+        @NotNull @Nullable T data,
         @Nullable String errorCode,
         @Nullable String errorMessage,
         @Nullable String errorDetails
